@@ -1,0 +1,69 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <meta charset="UTF-8" />
+    <title>SocialVibe</title>
+    <link rel="stylesheet" href="css/style.css" />
+  </head>
+  <body>
+    <nav>
+      <div class="nav-container">
+        <div class="logo" onclick="goToHome()">
+          <img src="images/logo.svg" width="40px" /> 
+          <h2 class="gradient-text">SocialVibe</h2>
+        </div>
+        <div class="nav-links">
+          <button id="btn-home" class="nav-item active" onclick="goToHome()"><img src="images/home.svg" width="25px"> Home</button>
+          <div id="guest-links" class="nav-group">
+            <button class="nav-item" onclick="showPage('login-page')">
+              <img src="images/login.svg" width="25px"> Login
+            </button>
+            <button class="btn-primary" onclick="showPage('signup-page')">
+             <img src="images/signup.svg" width="25px"> Sign Up
+            </button>
+          </div>
+          <div id="user-links" class="nav-group hidden">
+            <button class="nav-item" onclick="openProfile()"><img src="images/user.svg" width="25px"> Profile</button>
+            <div class="user-info">
+              <img id="nav-avatar" class="avatar-sm" />
+              <span id="nav-username"></span>
+            </div>
+            <button class="btn-logout" onclick="logout()">Logout</button>
+          </div>
+        </div>
+      </div>
+    </nav>
+
+    <div class="main-content">
+      <div id="home-page" class="page"></div>
+      <div id="login-page" class="page hidden"></div>
+      <div id="signup-page" class="page hidden"></div>
+      <div id="profile-page" class="page hidden"></div>
+      <div id="post-page" class="page hidden"></div>
+    </div>
+
+    <script src="js/api.js"></script>
+    <script src="js/ui.js"></script>
+    <script src="js/auth.js"></script>
+    <script src="js/posts.js"></script>
+    <script src="js/profile.js"></script>
+    <script src="js/comments.js"></script>
+
+    <script>
+      async function loadAllPages() {
+        await Promise.all([
+          loadPage("pages/home.html", "home-page"),
+          loadPage("pages/login.html", "login-page"),
+          loadPage("pages/signup.html", "signup-page"),
+          loadPage("pages/profile.html", "profile-page"),
+          loadPage("pages/post.html", "post-page"),
+        ]);
+
+        setupUI();
+        goToHome();
+      }
+
+      loadAllPages();
+    </script>
+  </body>
+</html>

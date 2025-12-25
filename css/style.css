@@ -1,0 +1,234 @@
+:root {
+  --primary: linear-gradient(90deg, #da22ff, #9733ee);
+  --bg: #f3f6ff;
+  --white: #ffffff;
+}
+body {
+  font-family: "Segoe UI", sans-serif;
+  background: var(--bg);
+  margin: 0;
+  padding: 0;
+}
+.hidden {
+  display: none !important;
+}
+
+/* Navbar */
+nav {
+  background: white;
+  padding: 12px 0;
+  box-shadow: 0 10px 10px rgba(0, 0, 0, 0.03);
+  position: sticky;
+  top: 0;
+  z-index: 1000;
+}
+.nav-container {
+  width: 85%;
+  margin: auto;
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+}
+.logo {
+  cursor: pointer;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.logo img {
+  background: linear-gradient(135deg, #AD46FF 0%, #F6339A 50%, #2B7FFF 100%);
+  border-radius: 14px;
+  padding: 5px;
+}
+.gradient-text{
+  background: linear-gradient(135deg, #AD46FF 0%, #F6339A 50%, #2B7FFF 100%);
+  -webkit-background-clip: text;
+  -webkit-text-fill-color: transparent;
+}
+.nav-links {
+  display: flex;
+  align-items: center;
+  gap: 20px;
+}
+.nav-group {
+  display: flex;
+  align-items: center;
+  gap: 15px;
+}
+.nav-item {
+  background: none;
+  border: none;
+  font-weight: 500;
+  cursor: pointer;
+  color: rgb(69, 68, 68);
+  font-size: 20px;
+}
+.nav-item.active {
+  color: #da22ff;
+  border-bottom: 2px solid #da22ff;
+}
+
+/* Buttons */
+#btn-home{
+  background: linear-gradient(135deg, #AD46FF 0%, #F6339A 50%, #2B7FFF 100%);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 5px;
+  gap: 5px;
+}
+.btn-primary{
+ background: linear-gradient(135deg, #AD46FF 0%, #F6339A 50%, #2B7FFF 100%);
+  color: #fff;
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  border-radius: 20px;
+  border: none;
+  cursor: pointer;
+  font-size: 15px;
+  padding: 10px;
+  gap: 5px;
+  font-weight: bold;
+}
+.btn-logout {
+  background: linear-gradient(135deg, #AD46FF 0%, #F6339A 50%, #2B7FFF 100%);
+  color: white;
+  border: none;
+  padding: 6px 15px;
+  border-radius: 10px;
+  cursor: pointer;
+}
+
+/* Post Card */
+.card {
+  background: white;
+  padding: 20px;
+  border-radius: 20px;
+  box-shadow: 0 10px 25px rgba(0, 0, 0, 0.04);
+  margin: 25px auto;
+  max-width: 600px;
+}
+.avatar-sm {
+  width: 40px;
+  height: 40px;
+  border-radius: 50%;
+  object-fit: cover;
+}
+.post-header {
+  display: flex;
+  align-items: center;
+  gap: 12px;
+  margin-bottom: 12px;
+}
+.post-img {
+  width: 100%;
+  border-radius: 15px;
+  margin-top: 15px;
+}
+
+/* Auth Layout */
+.auth-wrapper {
+  display: flex;
+  align-items: center;
+  justify-content: center;
+  gap: 100px;
+  min-height: 80vh;
+}
+.big-logo{
+    display: flex;
+  justify-content: center;
+  align-items: center;
+  gap: 8px;
+}
+.big-logo img {
+  background: linear-gradient(135deg, #AD46FF 0%, #F6339A 50%, #2B7FFF 100%);
+  border-radius: 14px;
+  padding: 10px;
+}
+.auth-card {
+  background: white;
+  padding: 40px;
+  border-radius: 30px;
+  box-shadow: 0 20px 50px rgba(0, 0, 0, 0.06);
+  width: 380px;
+}
+.w-100 {
+  width: 100%;
+}
+input {
+  width: 100%;
+  padding: 12px;
+  margin: 10px 0;
+  border: 1px solid #eee;
+  border-radius: 10px;
+  box-sizing: border-box;
+}
+.post-menu {
+  position: relative;
+  margin-left: auto;
+}
+
+/* DropDown */
+.btn-text{
+    border: none;
+    background-color: inherit;
+}
+.dropdown {
+  position: absolute;
+  right: 0;
+  top: 25px;
+  background: white;
+  border-radius: 10px;
+  box-shadow: 0 10px 20px rgba(0, 0, 0, 0.08);
+  overflow: hidden;
+ 
+}
+.dropdown div {
+  padding: 10px 15px;
+  cursor: pointer;
+}
+.dropdown div:hover {
+  background: #f3f3f3;
+}
+
+.post-actions {
+  display: flex;
+  justify-content: space-around;
+  padding-top: 10px;
+}
+
+.btn-action {
+  background: none;
+  border: none;
+  color: #65676b;
+  font-weight: 600;
+  font-size: 14px;
+  cursor: pointer;
+  padding: 8px 12px;
+  border-radius: 8px;
+  transition: background 0.3s;
+  display: flex;
+  align-items: center;
+  gap: 5px;
+}
+
+.btn-action:hover {
+  background: #f0f2f5;
+  color: #da22ff;
+}
+
+#comments-container .card {
+  margin: 10px 0;
+  padding: 10px 15px;
+  background: #f8f9fa;
+  border-radius: 15px;
+  box-shadow: none;
+  border: 1px solid #eee;
+}
