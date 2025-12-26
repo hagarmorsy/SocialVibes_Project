@@ -1,3 +1,7 @@
+let currentPage = 1;
+let isLoading = false;
+let hasMorePosts = true;
+
 async function createNewPost() {
     const body = document.getElementById("post-body").value;
     const imageInput = document.getElementById("post-image");
@@ -45,7 +49,98 @@ async function createNewPost() {
 }
 window.createNewPost = createNewPost;
 
-async function getPosts() {
+//---------Infinite Scroll------------
+async function getPosts(reset = false) {
+    const container = document.getElementById("posts-container");
+    if (!container || isLoading || !hasMorePosts) return;
+
+    isLoading = true;
+
+    if (reset) {
+        currentPage = 1;
+        hasMorePosts = true;
+        container.innerHTML = "<p class='loader'>Loading Posts...</p>";
+    }
+
+    try {
+        const { data } = await apiRequest(
+            `${BASE_URL}/posts?limit=15&page=${currentPage}`
+        );
+
+        const posts = data.data;
+
+        if (reset) container.innerHTML = "";
+
+        if (posts.length === 0) {
+            hasMorePosts = false;
+            return;
+        }
+
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+
+        posts.forEach(post => {
+            const isMyPost = user && post.author.id === user.id;
+            const cleanBody = post.body.replace(/'/g, "\\'").replace(/\n/g, " ");
+
+            container.innerHTML += `
+                <div class="card">
+                    <div class="post-header">
+                        <img src="${post.author.profile_image || 'https://via.placeholder.com/40'}" class="avatar-sm">
+                        <div>
+                            <strong>${post.author.username}</strong><br>
+                            <small>${post.created_at}</small>
+                        </div>
+
+                        ${isMyPost ? `
+                        <div class="post-menu" style="margin-left:auto; position:relative;">
+                            <button class="btn-text" onclick="toggleMenu(${post.id})">
+                                <img src="images/dropdown.svg" width="25px">
+                            </button>
+                            <div id="menu-${post.id}" class="dropdown hidden">
+                                <div onclick="editPost(${post.id}, '${cleanBody}')">Edit</div>
+                                <div onclick="deletePost(${post.id})" style="color:red">Delete</div>
+                            </div>
+                        </div>
+                        ` : ""}
+                    </div>
+
+                    <div onclick="openPost(${post.id})" style="cursor:pointer">
+                        <p>${post.body}</p>
+                        ${post.image && typeof post.image === 'string'
+                            ? `<img src="${post.image}" class="post-img">`
+                            : ""}
+                    </div>
+
+                    <hr style="border: 0.5px solid #eee; margin-top: 15px;">
+                    <div class="post-actions">
+                        <button class="btn-action">
+                            <img src="images/love.svg" width="25px"> Like
+                        </button>
+                        <button class="btn-action" onclick="openPost(${post.id})">
+                            <img src="images/comment.svg" width="25px">
+                            Comment (${post.comments_count})
+                        </button>
+                        <button class="btn-action" onclick="sharePost(${post.id})">
+                            <img src="images/share.svg" width="25px"> Share
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        currentPage++;
+
+    } catch (err) {
+        console.error(err);
+        if (reset) container.innerHTML = "<p>Error loading posts</p>";
+    } finally {
+        isLoading = false;
+    }
+}
+
+
+
+/* async function getPosts() {
     const container = document.getElementById("posts-container");
     if (!container) return;
 
@@ -101,7 +196,7 @@ async function getPosts() {
         container.innerHTML = "<p>Error loading posts</p>";
     }
 }
-
+*/
 
 window.sharePost = function(postId) {
     alert("Post ID: " + postId + " link copied!");
@@ -166,7 +261,96 @@ window.toggleMenu = function(postId) {
 };
 
 
-async function getPosts() {
+async function getPosts(reset = false) {
+    const container = document.getElementById("posts-container");
+    if (!container || isLoading || !hasMorePosts) return;
+
+    isLoading = true;
+
+    if (reset) {
+        currentPage = 1;
+        hasMorePosts = true;
+        container.innerHTML = "<p class='loader'>Loading Posts...</p>";
+    }
+
+    try {
+        const { data } = await apiRequest(
+            `${BASE_URL}/posts?limit=15&page=${currentPage}`
+        );
+
+        const posts = data.data;
+
+        if (reset) container.innerHTML = "";
+
+        if (posts.length === 0) {
+            hasMorePosts = false;
+            return;
+        }
+
+        const user = JSON.parse(localStorage.getItem("user") || "null");
+
+        posts.forEach(post => {
+            const isMyPost = user && post.author.id === user.id;
+            const cleanBody = post.body.replace(/'/g, "\\'").replace(/\n/g, " ");
+
+            container.innerHTML += `
+                <div class="card">
+                    <div class="post-header">
+                        <img src="${post.author.profile_image || 'https://via.placeholder.com/40'}" class="avatar-sm">
+                        <div>
+                            <strong>${post.author.username}</strong><br>
+                            <small>${post.created_at}</small>
+                        </div>
+
+                        ${isMyPost ? `
+                        <div class="post-menu" style="margin-left:auto; position:relative;">
+                            <button class="btn-text" onclick="toggleMenu(${post.id})">
+                                <img src="images/dropdown.svg" width="25px">
+                            </button>
+                            <div id="menu-${post.id}" class="dropdown hidden">
+                                <div onclick="editPost(${post.id}, '${cleanBody}')">Edit</div>
+                                <div onclick="deletePost(${post.id})" style="color:red">Delete</div>
+                            </div>
+                        </div>
+                        ` : ""}
+                    </div>
+
+                    <div onclick="openPost(${post.id})" style="cursor:pointer">
+                        <p>${post.body}</p>
+                        ${post.image && typeof post.image === 'string'
+                            ? `<img src="${post.image}" class="post-img">`
+                            : ""}
+                    </div>
+
+                    <hr style="border: 0.5px solid #eee; margin-top: 15px;">
+                    <div class="post-actions">
+                        <button class="btn-action">
+                            <img src="images/love.svg" width="25px"> Like
+                        </button>
+                        <button class="btn-action" onclick="openPost(${post.id})">
+                            <img src="images/comment.svg" width="25px">
+                            Comment (${post.comments_count})
+                        </button>
+                        <button class="btn-action" onclick="sharePost(${post.id})">
+                            <img src="images/share.svg" width="25px"> Share
+                        </button>
+                    </div>
+                </div>
+            `;
+        });
+
+        currentPage++;
+
+    } catch (err) {
+        console.error(err);
+        if (reset) container.innerHTML = "<p>Error loading posts</p>";
+    } finally {
+        isLoading = false;
+    }
+}
+
+
+/*async function getPosts() {
     const container = document.getElementById("posts-container");
     if (!container) return;
 
@@ -221,4 +405,16 @@ ${(post.image && typeof post.image === 'string') ? `<img src="${post.image}" cla
     } catch (err) {
         container.innerHTML = "<p>Error loading posts</p>";
     }
-}
+}*/
+
+window.addEventListener("scroll", () => {
+    if (isLoading || !hasMorePosts) return;
+
+    const nearBottom =
+        window.innerHeight + window.scrollY >=
+        document.body.offsetHeight - 300;
+
+    if (nearBottom) {
+        getPosts();
+    }
+});

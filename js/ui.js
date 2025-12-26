@@ -20,7 +20,12 @@ function showPage(pageId) {
 
 function goToHome() {
     showPage("home-page");
+    getPosts(true); // reset + load first page
 }
+
+/*function goToHome() {
+    showPage("home-page");
+}*/
 
 function setupUI() {
     const token = localStorage.getItem("token");
