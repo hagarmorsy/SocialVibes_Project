@@ -4,7 +4,6 @@ async function apiRequest(url, options = {}) {
     try {
         const res = await fetch(url, options);
         
-        // إذا كان السيرفر رد بخطأ (مثل 404 أو 500)
         if (!res.ok) {
             const errorData = await res.json().catch(() => ({}));
             console.error("API Error:", errorData);

@@ -204,7 +204,7 @@ window.sharePost = function(postId) {
 
 
 async function editPost(postId, oldBody) {
-    const newBody = prompt("تعديل المنشور:", oldBody);
+    const newBody = prompt("Edit Post:", oldBody);
     if (!newBody || newBody.trim() === "") return;
 
     const token = localStorage.getItem("token");
@@ -222,7 +222,7 @@ async function editPost(postId, oldBody) {
         if (res.ok) {
             getPosts(); 
         } else {
-            alert(data.message || "فشل التعديل");
+            alert(data.message || "Editing failed");
         }
     } catch (err) {
         console.error("Edit error:", err);
@@ -231,7 +231,7 @@ async function editPost(postId, oldBody) {
 
 
 async function deletePost(postId) {
-    if (!confirm("هل أنت متأكد من حذف هذا المنشور؟")) return;
+    if (!confirm("Are you sure you want to delete this post?")) return;
 
     const token = localStorage.getItem("token");
 
@@ -246,7 +246,7 @@ async function deletePost(postId) {
         if (res.ok) {
             getPosts();
         } else {
-            alert("فشل الحذف");
+            alert("Deleting failed");
         }
     } catch (err) {
         console.error("Delete error:", err);
